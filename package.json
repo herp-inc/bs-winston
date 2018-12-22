@@ -1,0 +1,19 @@
+{
+  "name": "bs-winston",
+  "version": "0.1.0",
+  "scripts": {
+    "clean": "bsb -clean-world",
+    "build": "bsb -make-world",
+    "watch": "bsb -make-world -w"
+  },
+  "keywords": [
+    "BuckleScript"
+  ],
+  "private": true,
+  "devDependencies": {
+    "bs-platform": "^4.0.14"
+  },
+  "dependencies": {
+    "winston": "^3.1.0"
+  }
+}
