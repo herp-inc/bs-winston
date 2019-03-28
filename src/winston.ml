@@ -4,33 +4,36 @@ module type LogLevel = sig
   val enabled : t list
 end
 
-module Syslog = struct
+module Transport = struct
+  type t = Winston_internal.transport
 
-  type t = [
-    | `Emerg [@bs.as "emerg"]
-    | `Alert [@bs.as "alert"]
-    | `Crit [@bs.as "crit"]
-    | `Err [@bs.as "error"]
-    | `Warn [@bs.as "warning"]
-    | `Notice [@bs.as "notice"]
-    | `Info [@bs.as "info"]
-    | `Debug [@bs.as "debug"]
-  ] [@@bs.deriving jsConverter]
+  let console ?eol () =
+    let opt = Winston_internal.mk_console_transport_option ?eol () in
+    Winston_internal.console_transport opt
+end
 
-  let enabled = [`Emerg; `Alert; `Crit; `Err; `Warn; `Notice; `Info; `Debug]
-  let string_of_t x = tToJs x
+module Format = struct
+  type t = Winston_internal.format
+
+  let label ~label ~message =
+    let opt = Winston_internal.mk_label_format_option ~label ~message in
+    Winston_internal.label_format opt
+
+  let json ?space () =
+    let opt = Winston_internal.mk_json_format_option ?space () in
+    Winston_internal.json_format opt
+
+  let timestamp () = Winston_internal.timestamp_format ()
+
+  let combine fs = Winston_internal.combine @@ Array.of_list fs
 end
 
 module Make(Level: LogLevel)(Conf: sig
     val transports: Winston_internal.transport list
     val level: Level.t
+    val formats: Format.t list
   end) = struct
   type t = Level.t
-
-  type log_entry = {
-    message: string;
-    level: Level.t;
-  }
 
   let _levels = Level.enabled |> List.mapi (fun i l -> (Level.string_of_t l, i)) |> Js.Dict.fromList
 
@@ -40,9 +43,11 @@ module Make(Level: LogLevel)(Conf: sig
                               ~transports: (Conf.transports |> Array.of_list)
                            )
 
-  let log level message  =
-    let entry = Winston_internal.mk_log_entry ~level: (Level.string_of_t level) ~message in
-    Winston_internal.log w entry
+  let log ~level ~message ?meta () =
+    let dict = meta |> function
+      | Some x -> x
+      | None -> Js.Dict.empty () in
+    Winston_internal.log w level message dict
 end
 
-module SyslogMake = Make(Syslog)
+module SyslogMake = Make(Winston_syslog.LogLevel)
