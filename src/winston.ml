@@ -43,7 +43,7 @@ module Make(Level: LogLevel)(Conf: sig
                               ~transports: (Conf.transports |> Array.of_list)
                            )
 
-  let log ~level ~message ?meta () =
+  let log level message ?meta () =
     let dict = meta |> function
       | Some x -> x
       | None -> Js.Dict.empty () in

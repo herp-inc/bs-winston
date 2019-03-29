@@ -11,6 +11,8 @@ npm run build
 npm run watch
 ```
 
+# Release
 
-# Editor
-If you use `vscode`, Press `Windows + Shift + B` it will build automatically
+```
+yarn pack
+```
