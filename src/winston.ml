@@ -47,7 +47,8 @@ module Make(Level: LogLevel)(Conf: sig
     let dict = meta |> function
       | Some x -> x
       | None -> Js.Dict.empty () in
-    Winston_internal.log w level message dict
+    let l = Level.string_of_t level in
+    Winston_internal.log w l message dict
 end
 
 module SyslogMake = Make(Winston_syslog.LogLevel)
