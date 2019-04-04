@@ -28,11 +28,16 @@ module Format = struct
   let combine fs = Winston_internal.combine @@ Array.of_list fs
 end
 
-module Make(Level: LogLevel)(Conf: sig
+module type SYSLOG = sig
+  type t
+
+  val log: t -> string -> ?meta:string Js.Dict.t -> unit -> unit
+end
+
+module Make(Level : LogLevel)(Conf : sig
     val transports: Winston_internal.transport list
     val level: Level.t
-    val formats: Format.t list
-  end) = struct
+  end): SYSLOG with type t = Level.t = struct
   type t = Level.t
 
   let _levels = Level.enabled |> List.mapi (fun i l -> (Level.string_of_t l, i)) |> Js.Dict.fromList
