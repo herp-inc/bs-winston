@@ -17,10 +17,9 @@ module Format : sig
   val label : label:string -> message:bool -> t
   val json : ?space:int -> unit -> t
   val timestamp : unit -> t
-  val combine : t list -> t
 end
 
-module type SYSLOG = sig
+module type LOG = sig
   type t
 
   val log : t -> string -> ?meta:string Js.Dict.t -> unit -> unit
@@ -28,12 +27,14 @@ end
 
 module Make(Level : LogLevel)(Conf : sig
     val transports : Transport.t list
+    val formats: Format.t list
     val level : Level.t
   end)
-  : SYSLOG with type t = Level.t
+  : LOG with type t = Level.t
 
 module SyslogMake(Conf : sig
     val transports : Transport.t list
+    val formats: Format.t list
     val level : Winston_syslog.LogLevel.t
   end)
-  : SYSLOG with type t = Winston_syslog.LogLevel.t
+  : LOG with type t = Winston_syslog.LogLevel.t
