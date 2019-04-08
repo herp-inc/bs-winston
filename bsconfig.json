@@ -1,22 +1,27 @@
 {
   "name": "bs-winston",
-  "version": "0.3.0",
-  "sources": {
-    "dir" : "src",
-    "subdirs" : true,
-    "public": [
-      "Winston"
-    ]
-  },
+  "version": "0.4.0",
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true,
+      "public": [
+        "Winston"
+      ]
+    },
+    {
+      "dir": "examples",
+      "type": "dev"
+    }
+  ],
   "package-specs": {
     "module": "commonjs",
     "in-source": true
   },
   "suffix": ".bs.js",
-  "bs-dependencies": [
-  ],
+  "bs-dependencies": [],
   "warnings": {
-    "error" : "+101"
+    "error": "+101"
   },
   "refmt": 3
 }

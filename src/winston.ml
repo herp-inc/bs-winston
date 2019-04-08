@@ -25,10 +25,10 @@ module Format = struct
 
   let timestamp () = Winston_internal.timestamp_format ()
 
-  let combine fs = Winston_internal.combine @@ Array.of_list fs
+  let combine fs = Winston_internal.apply Winston_internal.combine @@ Array.of_list fs
 end
 
-module type SYSLOG = sig
+module type LOG = sig
   type t
 
   val log: t -> string -> ?meta:string Js.Dict.t -> unit -> unit
@@ -36,17 +36,22 @@ end
 
 module Make(Level : LogLevel)(Conf : sig
     val transports: Winston_internal.transport list
+    val formats: Format.t list
     val level: Level.t
-  end): SYSLOG with type t = Level.t = struct
+  end): LOG with type t = Level.t = struct
   type t = Level.t
 
   let _levels = Level.enabled |> List.mapi (fun i l -> (Level.string_of_t l, i)) |> Js.Dict.fromList
 
-  let w = Winston_internal.(create_logger @@ mk_option
-                              ~levels: _levels
-                              ~level: (Level.string_of_t Conf.level)
-                              ~transports: (Conf.transports |> Array.of_list)
-                           )
+  let w =
+    let f = Format.combine Conf.formats in
+    Winston_internal.(create_logger @@ mk_option
+                        ~levels: _levels
+                        ~level: (Level.string_of_t Conf.level)
+                        ~format: f
+                        ~transports: (Conf.transports |> Array.of_list)
+                        ()
+                     )
 
   let log level message ?meta () =
     let dict = meta |> function

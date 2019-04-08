@@ -15,17 +15,21 @@ type mk_label_format_option = {
   message: bool;
 } [@@bs.deriving abstract]
 
-external label_format: mk_label_format_option -> format = "label" [@@bs.module "logform"]
+external label_format: mk_label_format_option -> format = "label" [@@bs.scope "format"] [@@bs.module "logform"]
 
 type mk_json_format_option = {
   space: int [@bs.optional];
 } [@@bs.deriving abstract]
 
-external json_format: mk_json_format_option -> format = "json" [@@bs.module "logform"]
+external json_format: mk_json_format_option -> format = "json" [@@bs.scope "format"] [@@bs.module "logform"]
 
-external timestamp_format: unit -> format = "timestamp" [@@bs.module "logform"]
+external timestamp_format: unit -> format = "timestamp" [@@bs.scope "format"] [@@bs.module "logform"]
 
-external combine: format array -> format = "combine" [@@bs.module "logform"]
+type c
+
+external combine: c = "combine" [@@bs.scope "format"] [@@bs.module "logform"]
+
+external apply: c -> (_ [@bs.as 0]) -> format array -> format = "apply" [@@bs.send]
 
 (* Logger *)
 type winston
@@ -33,6 +37,7 @@ type winston
 type mk_option = {
   levels: int Js.Dict.t;
   level: string;
+  format: format [@bs.optional];
   transports: transport array;
 } [@@bs.deriving abstract]
 
