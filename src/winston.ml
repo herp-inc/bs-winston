@@ -62,3 +62,4 @@ module Make(Level : LogLevel)(Conf : sig
 end
 
 module SyslogMake = Make(Winston_syslog.LogLevel)
+module NpmMake = Make(Winston_npm.LogLevel)
