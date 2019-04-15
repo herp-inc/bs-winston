@@ -9,6 +9,11 @@ module Transport : sig
   type t = Winston_internal.transport
 
   val console : ?eol:string -> unit -> t
+  val file : ?eol:string
+          -> ?dirname:string
+          -> ?filename:string
+          -> unit
+          -> Winston_internal.transport
 end
 
 module Format : sig
