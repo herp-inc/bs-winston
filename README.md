@@ -51,7 +51,7 @@ module Format : sig
   type t
   val label : label:string -> message:bool -> t
   val json : ?space:int -> unit -> t
-  val timestamp : unit -> t
+  val timestamp : ?format:string -> unit -> t
 end
 ```
 
