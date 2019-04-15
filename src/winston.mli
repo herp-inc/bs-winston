@@ -13,7 +13,7 @@ module Transport : sig
           -> ?dirname:string
           -> ?filename:string
           -> unit
-          -> Winston_internal.transport
+          -> t
 end
 
 module Format : sig
