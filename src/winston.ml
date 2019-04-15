@@ -23,7 +23,9 @@ module Format = struct
     let opt = Winston_internal.mk_json_format_option ?space () in
     Winston_internal.json_format opt
 
-  let timestamp () = Winston_internal.timestamp_format ()
+  let timestamp ?format () =
+    let opt = Winston_internal.mk_timestamp_format_option ?format () in
+    Winston_internal.timestamp_format opt
 
   let combine fs = Winston_internal.apply Winston_internal.combine @@ Array.of_list fs
 end

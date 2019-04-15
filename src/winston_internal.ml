@@ -23,7 +23,11 @@ type mk_json_format_option = {
 
 external json_format: mk_json_format_option -> format = "json" [@@bs.scope "format"] [@@bs.module "logform"]
 
-external timestamp_format: unit -> format = "timestamp" [@@bs.scope "format"] [@@bs.module "logform"]
+type mk_timestamp_format_option = {
+  format: string [@bs.optional];
+} [@@bs.deriving abstract]
+
+external timestamp_format: mk_timestamp_format_option -> format = "timestamp" [@@bs.scope "format"] [@@bs.module "logform"]
 
 type c
 
