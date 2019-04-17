@@ -43,3 +43,10 @@ module SyslogMake(Conf : sig
     val level : Winston_syslog.LogLevel.t
   end)
   : LOG with type t = Winston_syslog.LogLevel.t
+
+module NpmMake(Conf : sig
+    val transports : Transport.t list
+    val formats: Format.t list
+    val level : Winston_npm.LogLevel.t
+  end)
+  : LOG with type t = Winston_npm.LogLevel.t
