@@ -15,9 +15,9 @@ module Log = Winston.SyslogMake(struct
   end)
 
 let () =
-  Log.log `Info "Hello World" ();
-  Log.log `Crit "OCaml. Not Ocaml." ();
-  Log.log `Err "Oops" ();;
+  Log.log `Info "Hello World" [@bs];
+  Log.log `Crit "OCaml. Not Ocaml." [@bs];
+  Log.log `Err "Oops" [@bs];;
 ```
 
 ## contents
@@ -81,9 +81,13 @@ This functor generates a logger module.
 module type LOG = sig
   type t
 
-  val log: t -> string -> ?meta:string Js.Dict.t -> unit -> unit
+  val log_meta: t -> string -> ?meta:string Js.Dict.t -> unit -> unit
+  val log: t -> string -> unit [@bs]
 end
 ```
+
+`LOG.log` is uncurried and has less-overhead but it cannot be passed metadata to.
+`LOG.log_meta` is an alternative but it has a few calling cost.
 
 ```ocaml
 module Make(Level : LogLevel)(Conf : sig

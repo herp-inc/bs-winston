@@ -37,7 +37,8 @@ end
 module type LOG = sig
   type t
 
-  val log: t -> string -> ?meta:string Js.Dict.t -> unit -> unit
+  val log_meta: t -> string -> ?meta:string Js.Dict.t -> unit -> unit
+  val log: t -> string -> unit [@bs]
 end
 
 module Make(Level : LogLevel)(Conf : sig
@@ -59,13 +60,16 @@ module Make(Level : LogLevel)(Conf : sig
                         ()
                      )
 
-  let log level message ?meta () =
+  let log_meta level message ?meta () =
     let dict = meta |> function
       | Some x -> x
       | None -> Js.Dict.empty () in
     let l = Level.string_of_t level [@bs] in
     Winston_internal.log w l message dict
-end
+
+  let log = fun [@bs] level message ->
+    log_meta level message ()
+  end
 
 module SyslogMake = Make(Winston_syslog.LogLevel)
 module NpmMake = Make(Winston_npm.LogLevel)

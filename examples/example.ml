@@ -9,6 +9,6 @@ module Log = Winston.SyslogMake(struct
   end)
 
 let () =
-  Log.log `Info "Hello World" ();
-  Log.log `Crit "OCaml. Not Ocaml." ();
-  Log.log `Err "Oops" ();;
+  Log.log `Info "Hello World" [@bs];
+  Log.log `Crit "OCaml. Not Ocaml." [@bs];
+  Log.log `Err "Oops" [@bs];;

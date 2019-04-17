@@ -27,7 +27,8 @@ end
 module type LOG = sig
   type t
 
-  val log : t -> string -> ?meta:string Js.Dict.t -> unit -> unit
+  val log_meta: t -> string -> ?meta:string Js.Dict.t -> unit -> unit
+  val log: t -> string -> unit [@bs]
 end
 
 module Make(Level : LogLevel)(Conf : sig
