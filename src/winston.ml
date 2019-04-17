@@ -1,6 +1,6 @@
 module type LogLevel = sig
   type t
-  val string_of_t : t -> string
+  val string_of_t : t -> string [@bs]
   val enabled : t list
 end
 
@@ -47,13 +47,13 @@ module Make(Level : LogLevel)(Conf : sig
   end): LOG with type t = Level.t = struct
   type t = Level.t
 
-  let _levels = Level.enabled |> List.mapi (fun i l -> (Level.string_of_t l, i)) |> Js.Dict.fromList
+  let _levels = Level.enabled |> List.mapi (fun i l -> (Level.string_of_t l [@bs], i)) |> Js.Dict.fromList
 
   let w =
     let f = Format.combine Conf.formats in
     Winston_internal.(create_logger @@ mk_option
                         ~levels: _levels
-                        ~level: (Level.string_of_t Conf.level)
+                        ~level: (Level.string_of_t Conf.level [@bs])
                         ~format: f
                         ~transports: (Conf.transports |> Array.of_list)
                         ()
@@ -63,7 +63,7 @@ module Make(Level : LogLevel)(Conf : sig
     let dict = meta |> function
       | Some x -> x
       | None -> Js.Dict.empty () in
-    let l = Level.string_of_t level in
+    let l = Level.string_of_t level [@bs] in
     Winston_internal.log w l message dict
 end
 

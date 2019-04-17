@@ -67,7 +67,7 @@ This signature represents the first argument of `Make`.
 module type LogLevel = sig
   type t
 
-  val string_of_t : t -> string
+  val string_of_t : t -> string [@bs]
   val enabled : t list
 end
 ```
@@ -130,7 +130,7 @@ module Winston_syslog.LogLevel : LogLevel = struct
   ] [@@bs.deriving jsConverter]
 
   let enabled = [`Emerg; `Alert; `Crit; `Err; `Warn; `Notice; `Info; `Debug]
-  let string_of_t x = tToJs x
+  let string_of_t = fun x [@bs] -> tToJs x
 end
 ```
 

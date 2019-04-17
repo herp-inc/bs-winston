@@ -1,7 +1,7 @@
 module type LogLevel = sig
   type t
 
-  val string_of_t : t -> string
+  val string_of_t : t -> string [@bs]
   val enabled : t list
 end
 

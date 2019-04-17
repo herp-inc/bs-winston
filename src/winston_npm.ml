@@ -10,5 +10,5 @@ module LogLevel = struct
   ] [@@bs.deriving jsConverter]
 
   let enabled = [`Err; `Warn; `Info; `Http; `Verbose; `Debug; `Silly]
-  let string_of_t x = tToJs x
+  let string_of_t = fun [@bs] x -> tToJs x
 end
