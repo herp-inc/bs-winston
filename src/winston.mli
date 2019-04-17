@@ -16,7 +16,7 @@ module Format : sig
 
   val label : label:string -> message:bool -> t
   val json : ?space:int -> unit -> t
-  val timestamp : unit -> t
+  val timestamp : ?format:string -> unit -> t
 end
 
 module type LOG = sig
