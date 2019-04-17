@@ -39,10 +39,15 @@ end
 module Transport : sig
   type t
   val console : ?eol:string -> unit -> t
+  val file : ?eol:string
+          -> ?dirname:string
+          -> ?filename:string
+          -> unit
+          -> t
 end
 ```
 
-Currently we support only `Console`.
+We support `Console` and `File`, with partial options.
 
 ### `Format` submodule for [formats](https://github.com/winstonjs/winston#formats)
 

@@ -7,6 +7,14 @@ type mk_console_transport_option = {
 
 external console_transport: mk_console_transport_option -> transport = "Console" [@@bs.new][@@bs.module "winston/lib/winston/transports/index"]
 
+type mk_file_transport_option = {
+  filename: string [@bs.optional];
+  dirname: string [@bs.optional];
+  eol: string [@bs.optional];
+} [@@bs.deriving abstract]
+
+external file_transport: mk_file_transport_option -> transport = "File" [@@bs.new][@@bs.module "winston/lib/winston/transports/index"]
+
 (* format *)
 type format
 

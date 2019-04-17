@@ -10,6 +10,10 @@ module Transport = struct
   let console ?eol () =
     let opt = Winston_internal.mk_console_transport_option ?eol () in
     Winston_internal.console_transport opt
+
+  let file ?eol ?dirname ?filename () =
+    let opt = Winston_internal.mk_file_transport_option ?eol ?dirname ?filename () in
+    Winston_internal.file_transport opt
 end
 
 module Format = struct
