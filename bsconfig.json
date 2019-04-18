@@ -12,6 +12,10 @@
     {
       "dir": "examples",
       "type": "dev"
+    },
+    {
+      "dir": "bench",
+      "type": "dev"
     }
   ],
   "package-specs": {
