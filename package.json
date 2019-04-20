@@ -1,5 +1,5 @@
 {
-  "name": "bs-winston",
+  "name": "@herp/bs-winston",
   "version": "0.4.0",
   "scripts": {
     "clean": "bsb -clean-world",
@@ -9,7 +9,6 @@
   "keywords": [
     "BuckleScript"
   ],
-  "private": true,
   "devDependencies": {
     "bs-platform": "^4.0.18"
   },
