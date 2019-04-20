@@ -5,7 +5,7 @@ type mk_console_transport_option = {
   eol: string [@bs.optional];
 } [@@bs.deriving abstract]
 
-external console_transport: mk_console_transport_option -> transport = "Console" [@@bs.new][@@bs.module "winston/lib/winston/transports/index"]
+external console_transport: mk_console_transport_option -> transport = "Console" [@@bs.new] [@@bs.scope "transports"] [@@bs.module "winston"]
 
 type mk_file_transport_option = {
   filename: string [@bs.optional];
@@ -13,7 +13,7 @@ type mk_file_transport_option = {
   eol: string [@bs.optional];
 } [@@bs.deriving abstract]
 
-external file_transport: mk_file_transport_option -> transport = "File" [@@bs.new][@@bs.module "winston/lib/winston/transports/index"]
+external file_transport: mk_file_transport_option -> transport = "File" [@@bs.new] [@@bs.scope "transports"] [@@bs.module "winston"]
 
 (* format *)
 type format
