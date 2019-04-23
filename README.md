@@ -102,21 +102,44 @@ These functors are ones partially applied `Make`.
 module SyslogMake(Conf : sig
     val transports : Transport.t
     val formats : Format.t list
-    val level : Winston_syslog.LogLevel.t
+    val level : syslog_t
   end)
-  : LOG with type t = Winston_syslog.LogLevel.t
+  : LOG with type t = syslog_t
 ```
 
 ```ocaml
 module NpmMake(Conf : sig
     val transports : Transport.t
     val formats : Format.t list
-    val level : Winston_npm.LogLevel.t
+    val level : npm_t
   end)
-  : LOG with type t = Winston_npm.LogLevel.t
+  : LOG with type t = npm_t
+```
+and we provide `syslog_t` and `npm_t` as polymorphic variant type
+```ocaml
+type syslog_t = [
+  | `Emerg
+  | `Alert
+  | `Crit
+  | `Err
+  | `Warn
+  | `Notice
+  | `Info
+  | `Debug
+]
+
+type npm_t = [
+  | `Err
+  | `Warn
+  | `Info
+  | `Http
+  | `Verbose
+  | `Debug
+  | `Silly
+]
 ```
 
-and we provide `Winston_syslog.LogLevel.t` and `Winston_npm.LogLevel` as polymorphic variant type
+These are alias of  `Winston_syslog.LogLevel.t` and `Winston_npm.LogLevel.t`
 ```ocaml
 module Winston_syslog.LogLevel : LogLevel = struct
   type t = [
