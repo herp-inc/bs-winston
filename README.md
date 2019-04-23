@@ -30,6 +30,7 @@ module Winston : sig
   module Format
   module Make
   module SyslogMake
+  module NpmMake
 end
 ```
 
