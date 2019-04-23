@@ -68,4 +68,27 @@ module Make(Level : LogLevel)(Conf : sig
 end
 
 module SyslogMake = Make(Winston_syslog.LogLevel)
+
+type syslog_t = [
+  | `Emerg
+  | `Alert
+  | `Crit
+  | `Err
+  | `Warn
+  | `Notice
+  | `Info
+  | `Debug
+]
+
 module NpmMake = Make(Winston_npm.LogLevel)
+
+type npm_t = [
+  | `Err
+  | `Warn
+  | `Info
+  | `Http
+  | `Verbose
+  | `Debug
+  | `Silly
+]
+
