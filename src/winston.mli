@@ -37,16 +37,37 @@ module Make(Level : LogLevel)(Conf : sig
   end)
   : LOG with type t = Level.t
 
+type syslog_t = [
+  | `Emerg
+  | `Alert
+  | `Crit
+  | `Err
+  | `Warn
+  | `Notice
+  | `Info
+  | `Debug
+]
+
 module SyslogMake(Conf : sig
     val transports : Transport.t list
     val formats: Format.t list
-    val level : Winston_syslog.LogLevel.t
+    val level : syslog_t
   end)
-  : LOG with type t = Winston_syslog.LogLevel.t
+  : LOG with type t = syslog_t
+
+type npm_t = [
+  | `Err
+  | `Warn
+  | `Info
+  | `Http
+  | `Verbose
+  | `Debug
+  | `Silly
+]
 
 module NpmMake(Conf : sig
     val transports : Transport.t list
     val formats: Format.t list
-    val level : Winston_npm.LogLevel.t
+    val level : npm_t
   end)
-  : LOG with type t = Winston_npm.LogLevel.t
+  : LOG with type t = npm_t
